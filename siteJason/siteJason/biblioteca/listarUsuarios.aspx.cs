@@ -12,20 +12,32 @@ namespace siteJason.biblioteca
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Usuarios usuarios = new Usuarios();
-            List<Usuario> listaUsuarios = usuarios.Listar();
+            Response.ContentType = "application/json";
 
-            //string resposta = "";
+            try
+            {
+                Usuarios usuarios = new Usuarios();
+                List<Usuario> listaUsuarios = usuarios.Listar();
 
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            string json = serializer.Serialize(listaUsuarios);
+                //string resposta = "";
 
-            //foreach (Usuario item in listaUsuarios)
-            //{
-            //    resposta += item.Nome;
-            //}
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                string json = serializer.Serialize(listaUsuarios);
 
-            Response.Write(json);
+                //foreach (Usuario item in listaUsuarios)
+                //{
+                //    resposta += item.Nome;
+                //}
+
+                Response.Write(json);
+            }
+            catch (Exception)
+            {
+                //Resposta manual caso dê errado, via json
+                string resposta = "{'situacao':'false'}";
+                Response.Write(resposta.Replace("'","\""));
+            }
+
         }
     }
 }
